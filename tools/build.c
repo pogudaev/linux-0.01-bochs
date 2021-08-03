@@ -21,7 +21,7 @@ void usage(void)
 
 int main(int argc, char ** argv)
 {
-	int i,c,id,pading=0;
+	int i,c,id;
 	char buf[1024];
 
 	if (argc != 3)
@@ -34,17 +34,17 @@ int main(int argc, char ** argv)
 		die("Unable to open 'boot'");
 	if (read(id,buf,MINIX_HEADER) != MINIX_HEADER)
 		die("Unable to read header of 'boot'");
-	if (((long *) buf)[0]!=0x04100301)
-		die("Non-Minix header of 'boot'");
-	if (((long *) buf)[1]!=MINIX_HEADER)
-		die("Non-Minix header of 'boot'");
-	if (((long *) buf)[3]!=0)
+	if (((int32_t *) buf)[0]!=0x04100301)
+		die("Non-Minix header of 'boot (0)'");
+	if (((int32_t *) buf)[1]!=MINIX_HEADER)
+		die("Non-Minix header of 'boot (1)'");
+	if (((int32_t *) buf)[3]!=0)
 		die("Illegal data segment in 'boot'");
-	if (((long *) buf)[4]!=0)
+	if (((int32_t *) buf)[4]!=0)
 		die("Illegal bss in 'boot'");
-	if (((long *) buf)[5] != 0)
+	if (((int32_t *) buf)[5] != 0)
 		die("Non-Minix header of 'boot'");
-	if (((long *) buf)[7] != 0)
+	if (((int32_t *) buf)[7] != 0)
 		die("Illegal symbol table in 'boot'");
 	i=read(id,buf,sizeof buf);
 	fprintf(stderr,"Boot sector %d bytes.\n",i);
@@ -69,6 +69,7 @@ int main(int argc, char ** argv)
 			die("Write call failed");
 
 	// pading to 512*n bytes
+	int pading = 0;
 	if (i % 512) {
 		memset(buf, 0, 1024);
 		pading = 512 - i % 512;

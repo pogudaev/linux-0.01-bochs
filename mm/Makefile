@@ -4,7 +4,7 @@ CFLAGS	=-m32 -O -Wall -fstrength-reduce  -fomit-frame-pointer \
 AS	=as
 AR	=ar
 LD	=ld
-LDFLAGS =-m elf_i386 -x
+LDFLAGS =-melf_i386 -x
 CPP	=gcc -E -nostdinc -I../include
 
 .c.o:

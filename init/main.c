@@ -33,6 +33,12 @@ inline _syscall0(int,sync)
 
 #include <linux/fs.h>
 
+//Заглушка
+void __stack_chk_fail_local (void)
+{
+	return;
+}
+
 static char printbuf[1024];
 
 extern int vsprintf();

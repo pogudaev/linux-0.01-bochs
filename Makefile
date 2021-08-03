@@ -4,13 +4,15 @@
 # remove them from the CFLAGS defines.
 #
 
+# sudo apt install bin86
+
 AS86	=as86 -0 -a
 CC86	=bcc -0
 LD86	=ld86 -0
 
 AS	=as
 LD	=ld
-LDFLAGS =-m elf_i386 -x -M
+LDFLAGS = -melf_i386 -x -M
 CC	=gcc
 CFLAGS	=-m32 -Wall -O -fstrength-reduce -fomit-frame-pointer -Werror -fno-builtin
 CPP	=gcc -E -nostdinc -Iinclude
@@ -29,14 +31,12 @@ LIBS	=lib/lib.a
 
 all:	Image
 
-Image: boot/boot tools/system tools/build
+Image: boot/boot tools/system
 	tools/build boot/boot tools/system > Image
 	sync
 
-tools/build: tools/build.c
-	$(CC) $(CFLAGS) \
-	-o tools/build tools/build.c
-	chmod 0755 tools/build
+
+
 
 boot/head.o: boot/head.s
 
@@ -74,7 +74,7 @@ boot/boot:      boot/boot.s tools/system
 
 clean:
 	rm -f Image System.map tmp_make boot/boot core
-	rm -f init/*.o boot/*.o tools/system tools/build
+	rm -f init/*.o boot/*.o tools/system
 	(cd mm;make clean)
 	(cd fs;make clean)
 	(cd kernel;make clean)

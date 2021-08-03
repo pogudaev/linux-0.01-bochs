@@ -2,7 +2,7 @@ AR	=ar
 AS	=as
 CC	=gcc
 LD	=ld
-LDFLAGS =-m elf_i386 -x
+LDFLAGS =-melf_i386 -x
 CFLAGS	=-m32 -Wall -O -fstrength-reduce  -fomit-frame-pointer \
 	-nostdinc -I../include -Werror -fno-builtin
 CPP	=gcc -E -nostdinc -I../include
